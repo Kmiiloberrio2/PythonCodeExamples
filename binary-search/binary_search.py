@@ -4,7 +4,7 @@ import random
 def binary_search_with_loop(data, target):
     data.sort()
     low = 0
-    high = len(data)-1
+    high = len(data) - 1
 
     while low <= high:
         mid = (low + high) // 2
@@ -15,28 +15,32 @@ def binary_search_with_loop(data, target):
         else:
             low = mid + 1
 
+    return False
+
 
 def binary_search_with_recursion(data, target, low, high):
     data.sort()
     if low > high:
         return False
 
-    mid = (low - high) // 2
+    mid = (low + high) // 2
 
     if target == data[mid]:
         return True
     elif target < data[mid]:
-        return binary_search_recursive(data, target, low, mid - 1)
+        return binary_search_with_recursion(data, target, low, mid - 1)
     else:
-        return binary_search_recursive(data, target, mid + 1, high)
+        return binary_search_with_recursion(data, target, mid + 1, high)
 
 
 if __name__ == "__main__":
     data = [random.randint(0, 100) for i in range(10)]
+    print(data)
 
     target = int(input("What number would you like to find?"))
 
-    found_with_recursive = binary_search_recursive(
-        data, target, 0, len(data - 1))
+    found_with_recursive = binary_search_with_recursion(data, target, 0, len(data) - 1)
+    print(found_with_recursive)
 
-    found_with_loop = binary_search_loop(data, target)
+    found_with_loop = binary_search_with_loop(data, target)
+    print(found_with_loop)
